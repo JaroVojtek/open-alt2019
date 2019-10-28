@@ -98,4 +98,3 @@ docker run -p 5000:80 \
 --rm --name frontend-microservice \
 -d frontend-microservice:0.0.1
 ```
-
