@@ -1,14 +1,14 @@
 
 ```
-+---------------+          +-------------------------+         +--------------------------+       +-------------+
-|               |          |                         |         |                          |       |             |
-|               |          |                         |         |                          |       |             |
-|  Postgres DB  <----------+  Backend microservice   <---------+   Frontend microservice  +------>+   Web       |
-|               +---------->      Python Flask       +--------->           React          |       |   Browser   |
-|               |          |                         |         |                          |       |             |
-+---------------+          +-------------------------+         +--------------------------+       +-------------+
++---------------+   +-------------------------+   +--------------------------+   +-------------+
+|               |   |                         |   |                          |   |             |
+|               |   |                         |   |                          |   |             |
+|  Postgres DB  +---+  Backend microservice   +---+   Frontend microservice  +-->--  Web       |
+|               +--->      Python Flask       +--->           React          |   |   Browser   |
+|               |   |                         |   |                          |   |             |
++---------------+   +-------------------------+   +--------------------------+   +-------------+
 ```
-# Run simple python application Locally
+# Run simple python/react application locally
 
 ## Steps-to-follow
 * Install Docker (Neede for PostgreSQL)
@@ -110,7 +110,6 @@ Build and start React Frontend microservice
 ```
 npm install
 npm start
-npm run build
 ```
 
 
