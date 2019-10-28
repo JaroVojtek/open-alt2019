@@ -67,6 +67,8 @@ select * from request_ips;
 
 ## Run Backend microservice
 
+Install Python 3
+
 Switch to project dir
 ```
 cd <LOCAL_PATH>/open-alt209/easy-python-app/backend/
@@ -94,13 +96,15 @@ Install requirements from requirements.txt
 pip install -r requirements.txt
 ```
 
-Start Flask in non-production mode
+Start Flask 
 ```
 export FLASK_APP=app
 flask run --host=0.0.0.0 --port=8000
 ```
 
 ## Run Frontend microservice
+
+Install npm
 
 Switch to project dir
 ```

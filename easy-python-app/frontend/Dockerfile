@@ -13,10 +13,3 @@ COPY --from=react-build /app/build /usr/share/nginx/html/app
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
-
-# cd frontend
-# docker build -t <account>/frontend:v0.0.3 .
-
-# Run front-end React as docker container locally
-# docker run --rm --name ft -it -p 3001:80 -d <account>/frontend:v0.0.3
-# docker exec -it ft sh
