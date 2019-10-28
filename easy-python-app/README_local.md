@@ -56,7 +56,31 @@ select * from request_ips;
 
 ## Run Backend microservice
 
-Clone project
+Switch to project dir
+```
+cd <LOCAL_PATH>/open-alt209/easy-python-app/
+```
+Create python virtualenv
+```
+python3 -m venv venv_micro
+```
+
+Activate virtualenv 
+```
+source venv_micro/bin/activate
+```
+
+Install requirements from requirements.txt
+```
+pip install -r requirements.txt
+```
+
+Start Flask in non-production mode
+```
+cd ../backend
+export FLASK_APP=app
+flask run
+```
 
 
 
