@@ -1,11 +1,22 @@
 
-# 1. Run simple Easy-web-form python application in Docker container
+```
++---------------+          +-------------------------+         +--------------------------+       +-------------+
+|               |          |                         |         |                          |       |             |
+|               |          |                         |         |                          |       |             |
+|  Postgres DB  <----------+  Backend microservice   <---------+   Frontend microservice  +------>+   Web       |
+|               +---------->      Python Flask       +--------->           React          |       |   Browser   |
+|               |          |                         |         |                          |       |             |
++---------------+          +-------------------------+         +--------------------------+       +-------------+
+```
+# Run simple python application Locally
 
 ## Steps-to-follow
-* Install Docker
+* Install Docker (Neede for PostgreSQL)
 * Run ligtweight PostgreSQL database as docker container
-* Build own lightweight Docker image for application using Dockerfile
-* Run simple python application BookStore as Docker container
+* Install python 3
+* Run Backend microservice localy
+* Install npm
+* Run Frontend microservice localy 
 
 ## Docker installation
 Switch to root
@@ -58,7 +69,15 @@ select * from request_ips;
 
 Switch to project dir
 ```
-cd <LOCAL_PATH>/open-alt209/easy-python-app/
+cd <LOCAL_PATH>/open-alt209/easy-python-app/backend/
+```
+Export environmental var
+```
+export PSQL_DB_USER='micro'
+export PSQL_DB_NAME='microservice'
+export PSQL_DB_ADDRESS='127.0.0.1'
+export PSQL_DB_PASS='password'
+export PSQL_DB_PORT='5432'
 ```
 Create python virtualenv
 ```
@@ -77,9 +96,21 @@ pip install -r requirements.txt
 
 Start Flask in non-production mode
 ```
-cd ../backend
 export FLASK_APP=app
-flask run
+flask run --host=0.0.0.0 --port=8000
+```
+
+## Run Frontend microservice
+
+Switch to project dir
+```
+cd <LOCAL_PATH>/open-alt209/easy-python-app/frontend/
+```
+Build and start React Frontend microservice
+```
+npm install
+npm start
+npm run build
 ```
 
 
