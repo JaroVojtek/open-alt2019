@@ -99,3 +99,11 @@ kube-system   storage-provisioner                1/1     Running   1          9h
                              |                                        |
                              +----------------------------------------+
 ```
+
+
+
+
+Enable helm-tiller addon in minikube
+```
+minikube addons enable helm-tiller
+```
