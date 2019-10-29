@@ -146,6 +146,8 @@ ALTER DATABASE microservice OWNER TO micro;
 
 ## Build and Deploy backend microservice into minikube using kubernetes yaml objects 
 
+BACKEND TIER DRAWING HERE
+
 Switch to project dir
 ```
 cd <LOCAL_PATH>/open-alt209/easy-python-app/backend/
