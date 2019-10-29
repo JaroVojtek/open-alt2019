@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers: 
+      - name: backend
+        image: backend-microservice:0.0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        env:
+        - name: PSQL_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-application
+              key: db.user
+        - name: PSQL_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-application
+              key: db.name
+        - name: PSQL_DB_ADDRESS
+          valueFrom:
+            secretKeyRef:
+              name: postgres-application
+              key: db.address
+        - name: PSQL_DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: postgres-application
+              key: db.pass
+        - name: PSQL_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: postgres-application
+              key: db.port
+        livenessProbe:
+            httpGet:
+              path: "/api/isalive"
+              port: 8000
+        readinessProbe:
+            httpGet:
+              path: "/api/isalive"
+              port: 8000

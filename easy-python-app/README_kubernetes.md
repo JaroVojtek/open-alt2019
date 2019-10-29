@@ -2,8 +2,8 @@
 
 ## Steps-to-follow
 * Install minikube
-* Deploy PostgreSQL database into minikube using 
-* Run backend microservice in docker container 
+* Deploy PostgreSQL database into minikube using kubernetes yaml objects
+* Build and Deploy backend microservice into minikube using kubernetes yaml objects 
 * Build frontend docker image from Dockerfile
 * Run frontend microservice in docker container
 
@@ -63,6 +63,20 @@ kube-system   kube-scheduler-minikube            1/1     Running   1          9h
 kube-system   storage-provisioner                1/1     Running   1          9h
 ```
 
+### 5. Configure local docker cli to connect to minikube docker cli
+
+```
+minikube docker-env
+
+export DOCKER_TLS_VERIFY="1"
+export DOCKER_HOST="tcp://192.168.39.93:2376"
+export DOCKER_CERT_PATH="/home/jvojtek/.minikube/certs"
+# Run this command to configure your shell:
+# eval $(minikube docker-env)
+```
+Run `eval $(minikube docker-env)` and add this command into your `bash_profile`
+
+
 ## Deploy Postgres Database into minikube
 
 ```
@@ -100,8 +114,60 @@ kube-system   storage-provisioner                1/1     Running   1          9h
               +--------------------------------------------------------------------------+
 
 ```
+Deploy PostgreSQL database into minikube using prepared kubernetes yaml objects
+```
+kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/database/k8s-objects/*
+```
+Connect to deployed PostgreSQL instance and create database and user for our application
 
+Run `minikube ip` to get minikube vm IP
+```
+$ minikube ip
+192.168.39.93
+```
+Test connection to PostgreSQL
+```
+$ telnet 192.168.39.93 30543
+Trying 192.168.39.93...
+Connected to 192.168.39.93.
+Escape character is '^]'.
+```
+Connect to database
+```
+psql --host=192.168.39.93 --port=30543 -U postgres
+```
+Run
+```
+CREATE DATABASE  microservice;
+CREATE USER micro WITH ENCRYPTED PASSWORD 'password'; 
+GRANT ALL PRIVILEGES ON DATABASE microservice TO micro;
+ALTER DATABASE microservice OWNER TO micro;
+```
 
+## Build and Deploy backend microservice into minikube using kubernetes yaml objects 
+
+Switch to project dir
+```
+cd <LOCAL_PATH>/open-alt209/easy-python-app/backend/
+```
+Build backend docker image from Dockerfile
+```
+docker build -t backend-microservice:0.0.1 .
+```
+Check newly build backend microservice docker image
+```
+docker images
+```
+Deploy backend microservice into minikube using prepared kubernetes yaml objects
+```
+kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/backend/k8s-objects/*
+```
+Verify backend microservice is running properly 
+```
+wget -O http://192.168.39.93:30800/api/isalive
+wget -O http://192.168.39.93:30800/api/saveip
+wget -O http://192.168.39.93:30800/api/getallips
+```
 
 
 
