@@ -2,7 +2,7 @@
 
 ## Steps-to-follow
 * Install minikube
-* Build backend docker image from Dockerfile
+* Deploy PostgreSQL database into minikube using 
 * Run backend microservice in docker container 
 * Build frontend docker image from Dockerfile
 * Run frontend microservice in docker container
@@ -28,6 +28,7 @@ kubectl version
 ```
 
 ### 2.Install Hypervisor (KVM, VirtualBox, etc.)
+https://minikube.sigs.k8s.io/docs/reference/drivers/
 ### 3.Install minikube
 ```
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
@@ -45,3 +46,20 @@ Switch back to normal non-root system user
 ```
 minikube start
 ```
+Verify if minikube started properly
+
+```
+kubectl get pods -A
+
+NAMESPACE     NAME                               READY   STATUS    RESTARTS   AGE
+kube-system   coredns-5644d7b6d9-nnw8v           1/1     Running   1          9h
+kube-system   coredns-5644d7b6d9-zwrjz           1/1     Running   1          9h
+kube-system   etcd-minikube                      1/1     Running   1          9h
+kube-system   kube-addon-manager-minikube        1/1     Running   1          9h
+kube-system   kube-apiserver-minikube            1/1     Running   1          9h
+kube-system   kube-controller-manager-minikube   1/1     Running   1          9h
+kube-system   kube-proxy-vddfb                   1/1     Running   1          9h
+kube-system   kube-scheduler-minikube            1/1     Running   1          9h
+kube-system   storage-provisioner                1/1     Running   1          9h
+```
+

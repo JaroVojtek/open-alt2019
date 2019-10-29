@@ -11,7 +11,7 @@
 # Run simple python/react application locally
 
 ## Steps-to-follow
-* Install Docker (Neede for PostgreSQL)
+* Install Docker (Needed for PostgreSQL)
 * Run ligtweight PostgreSQL database as docker container
 * Install python 3
 * Run Backend microservice localy
