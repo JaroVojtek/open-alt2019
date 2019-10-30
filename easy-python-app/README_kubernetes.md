@@ -5,7 +5,7 @@
 * Deploy PostgreSQL database into minikube using kubernetes yaml objects
 * Build and Deploy backend microservice into minikube using kubernetes yaml objects 
 * Build and Deploy frontend microservice into minikube using kubernetes yaml objects 
-* Run frontend microservice in docker container
+* Deploy Nginx-controller into minikube to leverage ingress objects
 
 ## Install minikube
 Switch to `root`
@@ -200,14 +200,82 @@ kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/backend/k8s-objects/*
 ```
 Verify backend microservice is running properly 
 ```
-wget -O http://192.168.39.93:30800/api/isalive
-wget -O http://192.168.39.93:30800/api/saveip
-wget -O http://192.168.39.93:30800/api/getallips
+wget -O - http://192.168.39.93:30800/api/isalive
+wget -O - http://192.168.39.93:30800/api/saveip
+wget -O - http://192.168.39.93:30800/api/getallips
 ```
+## Build and Deploy frontend microservice into minikube using kubernetes yaml objects 
 
+```
+                              +------------------------------------------+
+                              |FRONTEND TIER                             |
+                              |     +------------------------------+     |
+                              |     |SERVICE                       |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     +------------------------------+     |
+                              |     +------------------------------+     |
+                              |     |INGRESS                       |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     +------------------------------+     |
+                              |     +------------------------------+     |
+                              |     |DEPLOYMENT                    |     |
+                              |     |  +------------------------+  |     |
+                              |     |  |POD                     |  |     |
+                              |     |  | +--------------------+ |  |     |
+                              |     |  | |backend+microservice| |  |     |
+                              |     |  | |container           | |  |     |
+                              |     |  | +--------------------+ |  |     |
+                              |     |  +------------------------+  |     |
+                              |     +------------------------------+     |
+                              |                                          |
+                              +------------------------------------------+
+```
+Switch to project dir
+```
+cd <LOCAL_PATH>/open-alt209/easy-python-app/frontend/
+```
+Update get requests in `App.js` file in `frontend/src/` to relative address
 
+Build backend docker image from Dockerfile
+```
+docker build -t frontend-microservice:0.0.1 .
+```
+Check newly build backend microservice docker image
+```
+docker images
+```
+Deploy frontend microservice into minikube using prepared kubernetes yaml objects
+```
+kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/frontend/k8s-objects/*
+````
 
+## Deploy Nginx-controller into minikube to leverage ingress objects
+Create `etc/hosts` entry for minikube (as it is set as ingress host)
+```
+cat /etc/hosts
+# Static table lookup for hostnames.
+# See hosts(5) for details.
+#
+192.168.39.93 minikube
+```
 Enable helm-tiller addon in minikube
 ```
 minikube addons enable helm-tiller
+```
+Deploy nginx-controller into minikube using helm
+```
+helm install \
+--name ingress \
+--set controller.service.type=NodePort \
+--set controller.service.nodePorts.http=30444 \
+stable/nginx-ingress
+```
+Try backend and frontend 
+```
+wget -O - http://minikube:30444/api/isalive
+wget -O - http://minikube:30444/app/
 ```
