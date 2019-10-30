@@ -27,13 +27,13 @@ class App extends Component {
   }
 
   fetchData = () => {
-    axios.get('/api/getallips').then(
+    axios.get('http://minikube:30800/api/getallips').then(
       res => this.setState({ addresses: res.data })
     ).catch(error => {
       console.log('GET all ipaddresses:' + error)
     });
 
-    axios.get('/api/isalive').then(
+    axios.get('http://minikube:30800/api/isalive').then(
       res => this.setState({ isalive: res.data })
     ).catch(error => {
       console.log('Error:' + error)
@@ -47,7 +47,7 @@ class App extends Component {
 
     console.log("Save IP address was hit!: ");
 
-    axios.get('/api/saveip').then(
+    axios.get('http://minikube:30800/api/saveip').then(
       res => this.setState({ saveToBackend: res.data }, this.fetchData)
     ).catch(error => {
       console.log('saveToBackend:' + error)
