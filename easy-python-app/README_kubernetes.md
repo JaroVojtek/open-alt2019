@@ -4,7 +4,7 @@
 * Install minikube
 * Deploy PostgreSQL database into minikube using kubernetes yaml objects
 * Build and Deploy backend microservice into minikube using kubernetes yaml objects 
-* Build frontend docker image from Dockerfile
+* Build and Deploy frontend microservice into minikube using kubernetes yaml objects 
 * Run frontend microservice in docker container
 
 ## Install minikube
@@ -146,7 +146,41 @@ ALTER DATABASE microservice OWNER TO micro;
 
 ## Build and Deploy backend microservice into minikube using kubernetes yaml objects 
 
-BACKEND TIER DRAWING HERE
+```
+                              +------------------------------------------+
+                              |BACKEND TIER                              |
+                              |     +------------------------------+     |
+                              |     |SERVICE                       |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     +------------------------------+     |
+                              |     +------------------------------+     |
+                              |     |INGRESS                       |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     +------------------------------+     |
+                              |     +------------------------------+     |
+                              |     |SECRET                        |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     |                              |     |
+                              |     +------------------------------+     |
+                              |     +------------------------------+     |
+                              |     |DEPLOYMENT                    |     |
+                              |     |  +------------------------+  |     |
+                              |     |  |POD                     |  |     |
+                              |     |  | +--------------------+ |  |     |
+                              |     |  | |backend+microservice| |  |     |
+                              |     |  | |container           | |  |     |
+                              |     |  | +--------------------+ |  |     |
+                              |     |  +------------------------+  |     |
+                              |     +------------------------------+     |
+                              |                                          |
+                              +------------------------------------------+
+
+```
 
 Switch to project dir
 ```
