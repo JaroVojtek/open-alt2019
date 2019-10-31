@@ -125,6 +125,14 @@ Run `minikube ip` to get minikube vm IP
 $ minikube ip
 192.168.39.93
 ```
+Create `etc/hosts` entry for minikube
+```
+cat /etc/hosts
+# Static table lookup for hostnames.
+# See hosts(5) for details.
+#
+192.168.39.93 minikube
+```
 Test connection to PostgreSQL
 ```
 $ telnet 192.168.39.93 30543
@@ -134,7 +142,7 @@ Escape character is '^]'.
 ```
 Connect to database
 ```
-psql --host=192.168.39.93 --port=30543 -U postgres
+psql --host=minikube --port=30543 -U postgres
 ```
 Run
 ```
@@ -181,7 +189,6 @@ ALTER DATABASE microservice OWNER TO micro;
                               +------------------------------------------+
 
 ```
-
 Switch to project dir
 ```
 cd <LOCAL_PATH>/open-alt209/easy-python-app/backend/
@@ -200,9 +207,9 @@ kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/backend/k8s-objects/*
 ```
 Verify backend microservice is running properly 
 ```
-wget -O - http://192.168.39.93:30800/api/isalive
-wget -O - http://192.168.39.93:30800/api/saveip
-wget -O - http://192.168.39.93:30800/api/getallips
+wget -O - http://minikube:30800/api/isalive
+wget -O - http://minikube:30800/api/saveip
+wget -O - http://minikube:30800/api/getallips
 ```
 ## Build and Deploy frontend microservice into minikube using kubernetes yaml objects 
 
@@ -238,7 +245,7 @@ Switch to project dir
 ```
 cd <LOCAL_PATH>/open-alt209/easy-python-app/frontend/
 ```
-Update get requests in `App.js` file in `frontend/src/` to relative address
+Update get requests in `App.js` file in `frontend/src/` dir to reflect `backend-microservice` running on minikube:30800
 
 Build backend docker image from Dockerfile
 ```
@@ -253,15 +260,10 @@ Deploy frontend microservice into minikube using prepared kubernetes yaml object
 kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/frontend/k8s-objects/*
 ````
 
-## Deploy Nginx-controller into minikube to leverage ingress objects
-Create `etc/hosts` entry for minikube (as it is set as ingress host)
-```
-cat /etc/hosts
-# Static table lookup for hostnames.
-# See hosts(5) for details.
-#
-192.168.39.93 minikube
-```
+## BONUS: Deploy Nginx-controller into minikube to leverage ingress objects
+
+![Alt text](../nginx-controller.png?raw=true "Nginx controller")
+
 Enable helm-tiller addon in minikube
 ```
 minikube addons enable helm-tiller

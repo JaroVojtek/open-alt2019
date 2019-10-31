@@ -110,7 +110,7 @@ Switch to project dir
 ```
 cd <LOCAL_PATH>/open-alt209/easy-python-app/frontend/
 ```
-Update get requests in `App.js` file in `frontend/src/` dir to reflect `backend-microservice` running on localhost
+Update get requests in `App.js` file in `frontend/src/` dir to reflect `backend-microservice` running on localhost:8000
 
 Build and start React Frontend microservice
 ```
