@@ -33,10 +33,9 @@ CREATE USER micro WITH ENCRYPTED PASSWORD 'password';
 GRANT ALL PRIVILEGES ON DATABASE microservice TO micro;
 ALTER DATABASE microservice OWNER TO micro;
 ```
-Connect to databse and check request_ips table
+Connect to microservice database with user micro
 ```
 psql --host=localhost --port=5432 -U micro -d microservice
-select * from request_ips;
 ```
 
 ## Build backend docker image from Dockerfile

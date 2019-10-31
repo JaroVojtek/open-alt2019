@@ -259,25 +259,3 @@ Deploy frontend microservice into minikube using prepared kubernetes yaml object
 ```
 kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/frontend/k8s-objects/*
 ````
-
-## BONUS: Deploy Nginx-controller into minikube to leverage ingress objects
-
-![Alt text](../nginx-controller.png?raw=true "Nginx controller")
-
-Enable helm-tiller addon in minikube
-```
-minikube addons enable helm-tiller
-```
-Deploy nginx-controller into minikube using helm
-```
-helm install \
---name ingress \
---set controller.service.type=NodePort \
---set controller.service.nodePorts.http=30444 \
-stable/nginx-ingress
-```
-Try backend and frontend 
-```
-wget -O - http://minikube:30444/api/isalive
-wget -O - http://minikube:30444/app/
-```

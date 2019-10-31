@@ -14,9 +14,9 @@
 * Install Docker (Needed for PostgreSQL)
 * Run ligtweight PostgreSQL database as docker container
 * Install python 3
-* Run Backend microservice localy
+* Run backend microservice locally
 * Install npm
-* Run Frontend microservice localy 
+* Run frontend microservice locally 
 
 ## Docker installation
 Switch to root
@@ -59,10 +59,9 @@ CREATE USER micro WITH ENCRYPTED PASSWORD 'password';
 GRANT ALL PRIVILEGES ON DATABASE microservice TO micro;
 ALTER DATABASE microservice OWNER TO micro;
 ```
-Connect to databse and check request_ips table
+Connect to microservice database with user micro
 ```
 psql --host=localhost --port=5432 -U micro -d microservice
-select * from request_ips;
 ```
 
 ## Run Backend microservice
@@ -110,7 +109,7 @@ Switch to project dir
 ```
 cd <LOCAL_PATH>/open-alt209/easy-python-app/frontend/
 ```
-Update get requests in `App.js` file in `frontend/src/` dir to reflect `backend-microservice` running on localhost:8000
+Update get requests in `App.js` file in `frontend/src/` dir to make raquests to backend running on localhost:8000
 
 Build and start React Frontend microservice
 ```
