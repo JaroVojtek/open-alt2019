@@ -5,6 +5,9 @@
 
 
 ## Using helm
+## Chart deployments and customizations
+## Working with Charts
+## Creating own Charts
 
 ### Deploy Nginx-controller using helm into minikube to leverage ingress objects
 
@@ -84,7 +87,7 @@ To see installed status of chart release
 ```
 helm status ingress
 ```
-### Chart structure
+## Chart deployments and customizations 
 
 A chart is organized as a collection of files inside of a directory. The directory name is the name of the chart (without versioning information). Thus, a chart describing Nginx-ingress controller would be stored in the `nginx-ingress/` directory.
 
@@ -213,3 +216,8 @@ controller:
     type: NodePort
 ```
 NOTE: Annotation was removed from release at it was not preset in `upgrade_values.yaml`
+
+## Working with Charts
+
+
+## Creating own charts
