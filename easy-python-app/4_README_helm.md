@@ -2,12 +2,9 @@
 
 ## Agenda
 1. Using Helm
-
-
-## Using helm
-## Chart deployments and customizations
-## Working with Charts
-## Developing own charts
+2. Chart deployments and customizations
+3. Working with Charts
+4. Developing own charts
 
 ### Deploy Nginx-controller using helm into minikube to leverage ingress objects
 
