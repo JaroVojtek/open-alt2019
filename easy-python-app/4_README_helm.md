@@ -7,7 +7,7 @@
 ## Using helm
 ## Chart deployments and customizations
 ## Working with Charts
-## Creating own Charts
+## Developing own charts
 
 ### Deploy Nginx-controller using helm into minikube to leverage ingress objects
 
@@ -219,5 +219,99 @@ NOTE: Annotation was removed from release at it was not preset in `upgrade_value
 
 ## Working with Charts
 
+Charts structure
+```
+wordpress/
+  Chart.yaml          # A YAML file containing information about the chart
+  LICENSE             # OPTIONAL: A plain text file containing the license for the chart
+  README.md           # OPTIONAL: A human-readable README file
+  requirements.yaml   # OPTIONAL: A YAML file listing dependencies for the chart
+  values.yaml         # The default configuration values for this chart
+  charts/             # A directory containing any charts upon which this chart depends.
+  templates/          # A directory of templates that, when combined with values,
+                      # will generate valid Kubernetes manifest files.
+  templates/NOTES.txt # OPTIONAL: A plain text file containing short usage notes
+```
 
-## Creating own charts
+### The `chart.yaml` file
+```
+apiVersion: The chart API version, always "v1" (required)
+name: The name of the chart (required)
+version: A SemVer 2 version (required)
+kubeVersion: A SemVer range of compatible Kubernetes versions (optional)
+description: A single-sentence description of this project (optional)
+keywords:
+  - A list of keywords about this project (optional)
+home: The URL of this project's home page (optional)
+sources:
+  - A list of URLs to source code for this project (optional)
+maintainers: # (optional)
+  - name: The maintainer's name (required for each maintainer)
+    email: The maintainer's email (optional for each maintainer)
+    url: A URL for the maintainer (optional for each maintainer)
+engine: gotpl # The name of the template engine (optional, defaults to gotpl)
+icon: A URL to an SVG or PNG image to be used as an icon (optional).
+appVersion: The version of the app that this contains (optional). This needn't be SemVer.
+deprecated: Whether this chart is deprecated (optional, boolean)
+tillerVersion: The version of Tiller that this chart requires. This should be expressed as a SemVer range: ">2.0.0" (optional)
+```
+
+Kubernetes Helm uses version numbers as release markers. Packages in repositories are identified by name plus version
+
+More complex SemVer 2 names are also supported, such as `version: 1.2.3-alpha.1+ef365`. But non-SemVer names are explicitly disallowed by the system.
+
+### Chart LICENSE, README and NODES
+
+Charts can also contain files that describe the installation, configuration, usage and license of a chart
+
+A `LICENSE` is a plain text file containing the license for the char
+
+A `README` for a chart should be formatted in Markdown (README.md), and should generally contain:
+
+* description of the application or service the chart provides
+* Any prerequisites or requirements to run the chart
+* Descriptions of options in values.yaml and default values
+* Any other information that may be relevant to the installation or configuration of the chart
+
+The chart can also contain a short plain text `templates/NOTES.txt` file that will be printed out after installation, and when viewing the status of a release. Is used to display usage notes, next steps, or any other information relevant to a release of the chart. 
+
+For example, instructions could be provided for connecting to a database, or accessing a web UI. Since this file is printed to STDOUT when running helm install or helm status, it is recommended to keep the content brief and point to the README for greater detail.
+
+### Chart dependencies
+
+#### Managing Dependencies with `requirements.yaml`
+
+A `requirements.yaml` file is a simple file for listing your dependencies.
+
+```
+dependencies:
+  - name: apache
+    version: 1.2.3
+    repository: http://example.com/charts
+  - name: mysql
+    version: 3.2.1
+    repository: http://another.example.com/charts
+```
+`helm dependency update <chart-dir>` will use your dependency file to download all the specified charts into your charts/ directory for your
+
+```
+charts/
+  apache-1.2.3.tgz
+  mysql-3.2.1.tgz
+```
+For more information see
+https://helm.sh/docs/developing_charts/#chart-dependencies
+
+#### Managing Dependencies manually via the `charts/` directory
+
+Copy the dependency charts into the `charts/` directory
+
+AGREGATE ALL 3 HELM CHARTS INTO ONE AT THE END OF THE WORKSHOP
+
+## Developing own charts
+
+## Charts HOOKS
+
+## Charts repository
+
+## Helmfile
