@@ -363,6 +363,8 @@ helm install --name postgres-test ../postgresql-openalt --dry-run --debug
 ```
 #### Lets start templating!
 
+Open `templates/postgresql-deployment.yaml`
+
 ```
 apiVersion: apps/v1
 kind: Deployment
@@ -414,16 +416,92 @@ spec:
               key: db.pass
         volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: postgresql-data  
+              name: {{ .Release.Name }}-data  
       volumes: 
-      - name: postgresql-data
+      - name: {{ .Release.Name }}-data
         persistentVolumeClaim:
-          claimName: postgresql-data
+          claimName: {{ .Release.Name }}-data
 ```
 In deployment we want to have configurable `replicas` and `image` tags
 
-## Charts HOOKS
+Open `values.yaml` file and add there following lines
+```
+replicas: 1
+
+image:
+  repository: postgres
+  tag: alpine
+```
+in `templates/postgresql-deployment.yaml` call those values
+
+```
+...
+spec:
+  replicas: {{ .Values.replicas | default 1}}
+...
+      containers: 
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+...
+```
+`postgres-pvc.yaml`
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-data
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: {{ .Values.persistence.requests.storage | quote }}
+```
+NOTE: other available pipeline functions: `upper, lower, repeat, default ...`
+
+`postgres-service.yaml`
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service
+spec:
+  selector:
+    app: {{ .Chart.Name }}
+    name: {{ .Release.Name }}
+  type: {{ .Values.service.type }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port | default 5432 }}
+      targetPort: 5432
+      nodePort: {{ .Values.service.nodePort }}
+```
+`postgres-secret.yaml`
+
+`Values.yaml` at the end
+
+```
+replicas: 1
+
+image:
+  repository: postgres
+  tag: alpine
+
+#Persistent storage configuration
+persistence:
+  requests:
+    storage: 1Gi
+
+#Service configuration
+service:
+  type: NodePort
+  port: 5432
+  nodePort: 30543
+```
 
 ## Charts repository
 
 ## Helmfile
+
+## Charts HOOKS
+

@@ -6,7 +6,7 @@ metadata:
     app: {{ .Chart.Name }}
     name: {{ .Release.Name }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas | default 1}}
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
@@ -19,7 +19,7 @@ spec:
     spec:
       containers: 
       - name: {{ .Chart.Name }}
-        image: postgres:alpine
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5432
@@ -36,8 +36,8 @@ spec:
               key: db.pass
         volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: postgresql-data  
+              name: {{ .Release.Name }}-data  
       volumes: 
-      - name: postgresql-data
+      - name: {{ .Release.Name }}-data
         persistentVolumeClaim:
-          claimName: postgresql-data
+          claimName: {{ .Release.Name }}-data

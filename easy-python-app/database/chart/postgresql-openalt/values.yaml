@@ -1,0 +1,16 @@
+replicas: 1
+
+image:
+  repository: postgres
+  tag: alpine
+
+#Persistent storage configuration
+persistence:
+  requests:
+    storage: 1Gi
+
+#Service configuration
+service:
+  type: NodePort
+  port: 5432
+  nodePort: 30543
