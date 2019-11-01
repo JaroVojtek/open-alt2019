@@ -112,7 +112,7 @@ A chart is organized as a collection of files inside of a directory. The directo
                       # will generate valid Kubernetes manifest files.
   templates/NOTES.txt # OPTIONAL: A plain text file containing short usage notes
 ```
-#### Customizing the Chart Before Installing
+#### Customizing the chart before installing
 
 Chart is installed using default values in `values.yaml` of the that chart
 
@@ -227,20 +227,6 @@ controller:
 NOTE: Annotation was removed from release at it was not preset in `upgrade_values.yaml`
 
 ## Working with Charts
-
-Charts structure
-```
-wordpress/
-  Chart.yaml          # A YAML file containing information about the chart
-  LICENSE             # OPTIONAL: A plain text file containing the license for the chart
-  README.md           # OPTIONAL: A human-readable README file
-  requirements.yaml   # OPTIONAL: A YAML file listing dependencies for the chart
-  values.yaml         # The default configuration values for this chart
-  charts/             # A directory containing any charts upon which this chart depends.
-  templates/          # A directory of templates that, when combined with values,
-                      # will generate valid Kubernetes manifest files.
-  templates/NOTES.txt # OPTIONAL: A plain text file containing short usage notes
-```
 
 ### The `chart.yaml` file
 ```
