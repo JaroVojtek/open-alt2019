@@ -1,5 +1,17 @@
 # HELM
 
+Helm is a tool for managing Kubernetes packages called `charts`
+
+The Helm client
+* written in the Go programming language
+* uses the gRPC protocol suite to interact with the Tiller server.
+
+The Tiller server 
+* written in Go
+* provides a gRPC server to connect with the client
+* uses the Kubernetes client library to communicate with Kubernetes
+* stores information in ConfigMaps in K8S, it does not need its own database.
+
 ## Agenda
 1. Using Helm
 2. Chart deployments and customizations
@@ -306,6 +318,47 @@ Copy the dependency charts into the `charts/` directory
 AGREGATE ALL 3 HELM CHARTS INTO ONE AT THE END OF THE WORKSHOP
 
 ## Developing own charts
+
+* The `templates/` directory is for template files
+* `Values.yaml` file contains the default values for a chart
+* Tiller is responsible for rendering `templates` files with `values` file and sending them to Kubernetes API server
+* Default rendering engine is set to `Gotpl`
+
+### PostgreSQL chart
+
+Lets create own lightweight postgresql helm chart
+```
+cd <LOCAL_PATH>/open-alt209/easy-python-app/database/
+mkdir -p chart/postgresql-openalt
+cd chart/postgresql-openalt
+
+vim Chart.yaml
+vim values.yaml
+mkdir templates
+```
+Copy all yaml files from `k8s-objects` into `templates` dir
+```
+cp ../../k8s-objects/* templates/
+```
+
+#### Built-in Objects
+
+* `Release`: This object describes the release itself
+  * `Release.Name`: The release name
+  * `Release.Time`: The time of the release
+  * `Release.Namespace`: The namespace to be released into 
+  * `Release.Revision`: The revision number of this release. It begins at 1 and is incremented for each helm upgrade.
+  * `Release.IsUpgrade`: This is set to true if the current operation is an upgrade or rollback.
+  * `Release.IsInstall`: This is set to true if the current operation is an install.
+
+* `Values`: Values passed into the template from the values.yaml file and from user-supplied files.
+
+* `Chart`: The contents of the Chart.yaml file. Any data in Chart.yaml will be accessible here. For example {{.Chart.Name}}-{{.Chart.Version}} will print out the mychart-0.1.0.
+
+* `Files`: You can use it to access other files in the chart
+  * `Files.Get` is a function for getting a file by name 
+  * `Files.GetBytes` is a function for getting the contents of a file as an array of bytes instead of as a string. This is useful for things like images.
+
 
 ## Charts HOOKS
 
