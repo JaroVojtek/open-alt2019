@@ -315,8 +315,6 @@ https://helm.sh/docs/developing_charts/#chart-dependencies
 
 Copy the dependency charts into the `charts/` directory
 
-AGREGATE ALL 3 HELM CHARTS INTO ONE AT THE END OF THE WORKSHOP
-
 ## Developing own charts
 
 * The `templates/` directory is for template files
@@ -359,6 +357,70 @@ cp ../../k8s-objects/* templates/
   * `Files.Get` is a function for getting a file by name 
   * `Files.GetBytes` is a function for getting the contents of a file as an array of bytes instead of as a string. This is useful for things like images.
 
+Although we do not have any value specified in `values.yaml` and not implemented any template variable in YAML manifests in `template/` dir, we can test that our chart is installabe and helm client is able to read chart structure properly.
+```
+helm install --name postgres-test ../postgresql-openalt --dry-run --debug
+```
+#### Lets start templating!
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+```
+
+To test our template without applying it run
+```
+helm template -x templates/postgres-deployment.yaml ../postgresql-openalt
+```
+Fill rest descriptive paramaeters with `bult-in objects`
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+  labels:
+    app: {{ .Chart.Name }}
+    name: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+      name: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+        name: {{ .Release.Name }}
+    spec:
+      containers: 
+      - name: {{ .Chart.Name }}
+        image: postgres:alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-admin
+              key: db.user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-admin
+              key: db.pass
+        volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresql-data  
+      volumes: 
+      - name: postgresql-data
+        persistentVolumeClaim:
+          claimName: postgresql-data
+```
+In deployment we want to have configurable `replicas` and `image` tags
 
 ## Charts HOOKS
 

@@ -1,21 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgresql-deployment
+  name: {{ .Release.Name }}-deployment
   labels:
-    app: postgresql
+    app: {{ .Chart.Name }}
+    name: {{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgresql
+      app: {{ .Chart.Name }}
+      name: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: postgresql
+        app: {{ .Chart.Name }}
+        name: {{ .Release.Name }}
     spec:
       containers: 
-      - name: postgres
+      - name: {{ .Chart.Name }}
         image: postgres:alpine
         imagePullPolicy: IfNotPresent
         ports:
