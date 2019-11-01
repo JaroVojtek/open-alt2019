@@ -15,7 +15,6 @@ The Tiller server
 ## Agenda
 1. Using Helm
 2. Chart deployments and customizations
-3. Working with Charts
 4. Developing own charts
 
 ### Deploy Nginx-controller using helm into minikube to leverage ingress objects
@@ -225,8 +224,6 @@ controller:
     type: NodePort
 ```
 NOTE: Annotation was removed from release at it was not preset in `upgrade_values.yaml`
-
-## Working with Charts
 
 ### The `chart.yaml` file
 ```
