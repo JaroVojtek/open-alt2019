@@ -571,7 +571,6 @@ envVars:
   third: frontend
 ```
 
-
 `_helpers.tpl`
 
 We can see in above templates that we are repeating key-value pairs in `labes, selectors, machLabes` in particular setions

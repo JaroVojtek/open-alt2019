@@ -118,7 +118,7 @@ Run `eval $(minikube docker-env)` and add this command into your `bash_profile`
 ```
 Deploy PostgreSQL database into minikube using prepared kubernetes yaml objects
 ```
-kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/database/k8s-objects/*
+kubectl apply -f open-alt2019/easy-python-app/database/k8s-objects/*
 ```
 Connect to deployed PostgreSQL instance and create database and user for our application
 
@@ -193,7 +193,7 @@ ALTER DATABASE microservice OWNER TO micro;
 ```
 Switch to project dir
 ```
-cd <LOCAL_PATH>/open-alt209/easy-python-app/backend/
+cd open-alt2019/easy-python-app/backend/
 ```
 Build backend docker image from Dockerfile
 ```
@@ -245,7 +245,7 @@ wget -O - http://minikube:30800/api/getallips
 ```
 Switch to project dir
 ```
-cd <LOCAL_PATH>/open-alt209/easy-python-app/frontend/
+cd open-alt2019/easy-python-app/frontend/
 ```
 Update get requests in `App.js` file in `frontend/src/` dir to reflect `backend-microservice` running on minikube:30800
 
@@ -259,5 +259,5 @@ docker images
 ```
 Deploy frontend microservice into minikube using prepared kubernetes yaml objects
 ```
-kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/frontend/k8s-objects/*
+kubectl apply -f open-alt2019/easy-python-app/frontend/k8s-objects/*
 ````
