@@ -252,7 +252,7 @@ Kubernetes Helm uses version numbers as release markers. Packages in repositorie
 
 More complex SemVer 2 names are also supported, such as `version: 1.2.3-alpha.1+ef365`. But non-SemVer names are explicitly disallowed by the system.
 
-### Chart LICENSE, README and NODES
+### Chart LICENSE, README and NOTES
 
 Charts can also contain files that describe the installation, configuration, usage and license of a chart
 
