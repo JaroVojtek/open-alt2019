@@ -480,6 +480,7 @@ stringData:
 {{- end }}
 ```
 
+
 `Values.yaml`
 
 ```
@@ -500,9 +501,20 @@ service:
   port: 5432
   nodePort: 30543
 
+#Database admin access
 AdminAccess:
   user: admin
   password: admin-pass
+```
+
+
+`_helpers.tpl`
+
+We can see in above templates that we are repeating key-value pairs in `labes, selectors, machLabes` in particular setions
+
+```
+app: {{ .Chart.Name }}
+name: {{ .Release.Name }}
 ```
 
 ## Charts repository
