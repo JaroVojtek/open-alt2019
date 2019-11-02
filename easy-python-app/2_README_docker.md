@@ -8,60 +8,40 @@
 * Run frontend microservice in docker container
 
 
-## Run PostgreSQL 
+## Prerequisity
 
-```
-docker run --net=host --rm \
---name micro-postgres \
--e POSTGRES_USER=postgres \
--e POSTGRES_PASSWORD=admin-pass \
--d postgres:alpine
-```
-Check if PostgreSQL started and is listening on port 5432 on localhost
-```
-docker ps
-netstat -tunlp | grep 5432
-```
-Connect to PostgreSQL from your laptop
-```
-psql --host=localhost --port=5432 -U postgres
-```
-Create database, user and grant privileges
-```
-CREATE DATABASE  microservice;
-CREATE USER micro WITH ENCRYPTED PASSWORD 'password'; 
-GRANT ALL PRIVILEGES ON DATABASE microservice TO micro;
-ALTER DATABASE microservice OWNER TO micro;
-```
-Connect to microservice database with user micro
-```
-psql --host=localhost --port=5432 -U micro -d microservice
-```
-
+* PostgreSQL database running in docker container from previous section `1_README_local.md`
 ## Build backend docker image from Dockerfile
 
 Switch to project dir
 ```
-cd <LOCAL_PATH>/open-alt209/easy-python-app/backend/
+cd open-alt2019/easy-python-app/backend/
 ```
 Build backend docker image from Dockerfile
 ```
-docker build -t backend-microservice:0.0.1 .
+sudo docker build -t backend-microservice:0.0.1 .
 ```
 Check newly build backend microservice docker image
 ```
-docker images
+sudo docker images
 ```
 ## Run backend microservice in docker container 
+Export public IP address of you host. For example
+
 ```
-docker run \
+export MY_IP_ADDR=$(ip a | grep 'inet ' | awk '{{ print $2 }}' | egrep -v '^(127|172)\.' | cut -f1 -d/ | head -n1)
+```
+
+
+```
+sudo docker run \
 -p 8000:8000 \
 --rm \
 --name backend-microservice \
 -d \
 -e PSQL_DB_USER='micro' \
 -e PSQL_DB_NAME='microservice' \
--e PSQL_DB_ADDRESS='<MY_IP_ADDRESS>' \
+-e PSQL_DB_ADDRESS=$MY_IP_ADDR \
 -e PSQL_DB_PASS='password' \
 -e PSQL_DB_PORT='5432' \
 -d backend-microservice:0.0.1
