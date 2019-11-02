@@ -80,7 +80,7 @@ git clone https://github.com/JaroVojtek/open-alt2019.git
 
 Switch to project dir
 ```
-cd open-alt209/easy-python-app/backend/
+cd open-alt2019/easy-python-app/backend/
 ```
 Export environmental var
 ```
