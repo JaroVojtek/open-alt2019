@@ -504,7 +504,38 @@ Edit `postgres-deployment.yaml` section `env`
   value: {{ $envValue | quote }}
 {{- end}}
 ```
+More `range` usages
 
+```
+sizes: |-
+  {{- range list "small" "medium" "large" }}
+  - {{ . }}
+  {{- end }}
+
+sizes: |-
+  - small
+  - medium
+  - large
+```
+
+### Variables in templates
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-admin
+type: Opaque
+stringData:
+{{- $service := .Values.service -}}
+{{- with .Values.AdminAccess }}
+  db.user: {{ .user }}
+  db.pass: {{ .pass}}
+  {{- if and $service.nodePort (eq $service.type "NodePort") }}
+  db.port: {{ $service.nodePort }}
+  {{- end }}
+{{- end }}
+```
 
 `Values.yaml`
 
