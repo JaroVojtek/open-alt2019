@@ -10,6 +10,9 @@
 ```
 # Run simple python/react application locally
 
+Prerequisities:
+* `psql` client    
+
 ## Steps-to-follow
 * Install Docker (Needed for PostgreSQL)
 * Run ligtweight PostgreSQL database as docker container
@@ -19,10 +22,7 @@
 * Run frontend microservice locally 
 
 ## Docker installation
-Switch to root
-```
-sudo -i 
-```
+
 Install Docker on Linux system
 ```
 curl -fsSL get.docker.com -o get-docker.sh
@@ -30,14 +30,15 @@ sudo sh get-docker.sh
 ```
 Starting docker service
 ```
-systemctl start docker
-systemctl status docker
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo systemctl status docker
 ```
 
 ## Run PostgreSQL 
 
 ```
-docker run --net=host --rm \
+sudo docker run --net=host --rm \
 --name micro-postgres \
 -e POSTGRES_USER=postgres \
 -e POSTGRES_PASSWORD=admin-pass \
@@ -45,8 +46,8 @@ docker run --net=host --rm \
 ```
 Check if PostgreSQL started and is listening on port 5432 on localhost
 ```
-docker ps
-netstat -tunlp | grep 5432
+sudo docker ps
+sudo netstat -tunlp | grep 5432
 ```
 Connect to PostgreSQL from your laptop
 ```
@@ -59,6 +60,10 @@ CREATE USER micro WITH ENCRYPTED PASSWORD 'password';
 GRANT ALL PRIVILEGES ON DATABASE microservice TO micro;
 ALTER DATABASE microservice OWNER TO micro;
 ```
+Disconnect from database
+```
+$ \q
+```
 Connect to microservice database with user micro
 ```
 psql --host=localhost --port=5432 -U micro -d microservice
@@ -68,9 +73,14 @@ psql --host=localhost --port=5432 -U micro -d microservice
 
 Install Python 3
 
+Clone workshop repository
+```
+git clone https://github.com/JaroVojtek/open-alt2019.git
+```
+
 Switch to project dir
 ```
-cd <LOCAL_PATH>/open-alt209/easy-python-app/backend/
+cd open-alt209/easy-python-app/backend/
 ```
 Export environmental var
 ```

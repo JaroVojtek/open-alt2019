@@ -1,6 +1,9 @@
 # open-alt2019
 Kubernetes and Helm workshop materials
 
+## Clone repository
+
+
 ### Agenda 
 * Setup Python Virtual environment
 * Run simple python application Book Store

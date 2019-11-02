@@ -519,7 +519,7 @@ sizes: |-
 ```
 
 ### Variables in templates
-
+`postgresql-secret.yaml`
 ```
 apiVersion: v1
 kind: Secret
@@ -536,6 +536,8 @@ stringData:
   {{- end }}
 {{- end }}
 ```
+
+However, there is one variable that is always global - `$` - this variable will always point to the root context. This can be very useful when you are looping in a range and need to know the chart’s release name.
 
 `Values.yaml`
 
