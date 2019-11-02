@@ -12,6 +12,7 @@
 
 Prerequisities:
 * `psql` client    
+* `nqm`
 
 ## Steps-to-follow
 * Install Docker (Needed for PostgreSQL)
@@ -108,7 +109,7 @@ pip install -r requirements.txt
 Start Flask 
 ```
 export FLASK_APP=app
-flask run --host=0.0.0.0 --port=8000 &
+flask run --host=0.0.0.0 --port=8000
 ```
 Verify in browser
 ```
@@ -117,11 +118,13 @@ localhost:8000/api/isalive
 
 ## Run Frontend microservice
 
+Open new terminal
+
 Install npm
 
 Switch to project dir
 ```
-cd <LOCAL_PATH>/open-alt209/easy-python-app/frontend/
+cd open-alt2019/easy-python-app/frontend/
 ```
 Update get requests in `App.js` file in `frontend/src/` dir to make raquests to backend running on localhost:8000
 
