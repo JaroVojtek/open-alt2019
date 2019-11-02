@@ -31,7 +31,7 @@ Export public IP address of you host. For example
 ```
 export MY_IP_ADDR=$(ip a | grep 'inet ' | awk '{{ print $2 }}' | egrep -v '^(127|172)\.' | cut -f1 -d/ | head -n1)
 ```
-
+Run backend application as docker container
 
 ```
 sudo docker run \
@@ -48,32 +48,34 @@ sudo docker run \
 ```
 Verify functionality of backend microservice running in docker container
 ```
-docker ps
-docker inspect <CONTAINER_ID> | grep -i ipaddress
-netstat -tunlp | grep -i 8000
-wget -O - http://<CONTAINER_IP>:8000/api/isalive
+sudo docker ps
+wget -O - http://localhost:8000/api/isalive
 ```
 
 ## Build frontend docker image from Dockerfile
 Switch to project dir
 ```
-cd <LOCAL_PATH>/open-alt209/easy-python-app/frontend/
+cd open-alt2019/easy-python-app/frontend/
 ```
-Update get requests in `App.js` file in `frontend/src/` dir to reflect `backend-microservice` running on localhost:8000
 
 Build backend docker image from Dockerfile
 ```
-docker build -t frontend-microservice:0.0.1 .
+sudo docker build -t frontend-microservice:0.0.1 .
 ```
 Check newly build backend microservice docker image
 ```
-docker images
+sudo docker images
 ```
 
 ## Run frontend microservice in docker container 
 
 ```
-docker run -p 5000:80 \
+sudo docker run -p 5000:80 \
 --rm --name frontend-microservice \
 -d frontend-microservice:0.0.1
+```
+Verify functionality of frontend microservice running in docker container
+```
+sudo docker ps
+wget -O - http://localhost:5000/app
 ```

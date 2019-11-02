@@ -1,5 +1,9 @@
 # Run simple python/react application in kubernetes
 
+## Prerequisities
+* Install Hypervisor (KVM, VirtualBox, etc.)
+https://minikube.sigs.k8s.io/docs/reference/drivers/
+
 ## Steps-to-follow
 * Install minikube
 * Deploy PostgreSQL database into minikube using kubernetes yaml objects
@@ -27,8 +31,6 @@ Test to ensure the version you installed is up-to-date:
 kubectl version
 ```
 
-### 2.Install Hypervisor (KVM, VirtualBox, etc.)
-https://minikube.sigs.k8s.io/docs/reference/drivers/
 ### 3.Install minikube
 ```
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
@@ -125,7 +127,7 @@ Run `minikube ip` to get minikube vm IP
 $ minikube ip
 192.168.39.93
 ```
-Create `etc/hosts` entry for minikube
+Create `/etc/hosts` entry for minikube
 ```
 cat /etc/hosts
 # Static table lookup for hostnames.
