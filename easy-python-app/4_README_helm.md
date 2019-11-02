@@ -580,10 +580,3 @@ We can see in above templates that we are repeating key-value pairs in `labes, s
 app: {{ .Chart.Name }}
 name: {{ .Release.Name }}
 ```
-
-## Charts repository
-
-## Helmfile
-
-## Charts HOOKS
-

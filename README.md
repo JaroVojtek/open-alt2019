@@ -1,12 +1,13 @@
 # open-alt2019
 Kubernetes and Helm workshop materials
 
-## Clone repository
-
-
 ### Agenda 
-* Setup Python Virtual environment
-* Run simple python application Book Store
-* CNI ???
-* Install Helm v.2.15 (optional try Helm 3)
-* 
+* Run frontend/backend application 
+    * as legacy service
+    * in docker containers
+    * in minikube 
+* Helm 
+    * Using Helm binary
+    * Helm chart deployments and customizations 
+    * Developing own helm charts
+    * Deployment developed charts into minikube
