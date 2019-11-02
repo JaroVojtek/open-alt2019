@@ -14,3 +14,7 @@ service:
   type: NodePort
   port: 5432
   nodePort: 30543
+
+AdminAccess:
+  user: admin
+  password: admin-pass

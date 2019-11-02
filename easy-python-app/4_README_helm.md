@@ -440,7 +440,7 @@ spec:
     requests:
       storage: {{ .Values.persistence.requests.storage | quote }}
 ```
-NOTE: other available pipeline functions: `upper, lower, repeat, default ...`
+NOTE: other available pipeline functions: `upper, lower, repeat, default, indent, nindent ...`
 
 `postgres-service.yaml`
 ```
@@ -459,9 +459,28 @@ spec:
       targetPort: 5432
       nodePort: {{ .Values.service.nodePort }}
 ```
-`postgres-secret.yaml`
+Flow control types:
 
-`Values.yaml` at the end
+* `with` to specify a scope
+* `if/else` for creating conditional blocks
+* `range`, which provides a “for each”-style loop
+
+In `postgres-secret.yaml` we will leverage `with` flow control 
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-admin
+type: Opaque
+stringData:
+{{- with .Values.AdminAccess }}
+  db.user: {{ .user }}
+  db.pass: {{ .password }}
+{{- end }}
+```
+
+`Values.yaml`
 
 ```
 replicas: 1
@@ -480,6 +499,10 @@ service:
   type: NodePort
   port: 5432
   nodePort: 30543
+
+AdminAccess:
+  user: admin
+  password: admin-pass
 ```
 
 ## Charts repository
