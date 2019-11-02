@@ -108,7 +108,11 @@ pip install -r requirements.txt
 Start Flask 
 ```
 export FLASK_APP=app
-flask run --host=0.0.0.0 --port=8000
+flask run --host=0.0.0.0 --port=8000 &
+```
+Verify in browser
+```
+localhost:8000/api/isalive
 ```
 
 ## Run Frontend microservice
