@@ -610,6 +610,18 @@ spec:
       ...
 ```
 
+### NOTES.txt
+```
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get {{ .Release.Name }}
+```
+
 ### Files
 In charts dir 
 
