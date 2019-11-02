@@ -3,19 +3,16 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-deployment
   labels:
-    app: {{ .Chart.Name }}
-    name: {{ .Release.Name }}
+{{ include "postgresql-openalt.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicas | default 1}}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
-      name: {{ .Release.Name }}
+{{ include "postgresql-openalt.labels" . | indent 6 }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
-        name: {{ .Release.Name }}
+{{ include "postgresql-openalt.labels" . | indent 8 }}
     spec:
       containers: 
       - name: {{ .Chart.Name }}

@@ -579,3 +579,59 @@ We can see in above templates that we are repeating key-value pairs in `labes, s
 app: {{ .Chart.Name }}
 name: {{ .Release.Name }}
 ```
+We have an option to define template function in `_helpers.tpl` file and include that funtion in particular templates.
+
+in `_helpers.tpl` we will define `labels` template function
+```
+{{- define "postgresql-openalt.labels" -}}
+app: {{ .Chart.Name }}
+name: {{ .Release.Name }}
+{{- end -}}
+```
+We can now include this helper function in manifets
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+  labels:
+{{ include "postgresql-openalt.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicas | default 1}}
+  selector:
+    matchLabels:
+{{ include "postgresql-openalt.labels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+{{ include "postgresql-openalt.labels" . | indent 8 }}
+    spec:
+      containers: 
+      ...
+```
+
+### Files
+In charts dir 
+
+```
+mkdir config
+echo "message = "Hello from config 1" > config/config1.conf
+echo "message = "Hello from config 2" > config/config2.conf
+echo "message = "Hello from config 3" > config/config3.conf
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  {{- $files := .Files }}
+  {{- range list "config1.conf" "config2.conf" "config3.conf" }}
+  {{ . }}: |-
+    {{ $files.Get . }}
+  {{- end }}
+```
+
+To crate helm chart basic structure
+```
+helm create my-new-chart-name
+```
