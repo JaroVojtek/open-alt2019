@@ -15,6 +15,13 @@ service:
   port: 5432
   nodePort: 30543
 
+#Database admin access
 AdminAccess:
   user: admin
   password: admin-pass
+
+#Set custom env variables for database container
+envVars:
+  first: database
+  second: backend
+  third: frontend

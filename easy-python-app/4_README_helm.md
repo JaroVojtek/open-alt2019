@@ -440,25 +440,8 @@ spec:
     requests:
       storage: {{ .Values.persistence.requests.storage | quote }}
 ```
-NOTE: other available pipeline functions: `upper, lower, repeat, default, indent, nindent ...`
+NOTE: other available pipeline functions: `upper, lower, repeat, default, indent, nindent, title ...`
 
-`postgres-service.yaml`
-```
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Release.Name }}-service
-spec:
-  selector:
-    app: {{ .Chart.Name }}
-    name: {{ .Release.Name }}
-  type: {{ .Values.service.type }}
-  ports:
-    - protocol: TCP
-      port: {{ .Values.service.port | default 5432 }}
-      targetPort: 5432
-      nodePort: {{ .Values.service.nodePort }}
-```
 Flow control types:
 
 * `with` to specify a scope
@@ -480,6 +463,48 @@ stringData:
 {{- end }}
 ```
 
+`postgres-service.yaml`
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service
+spec:
+  selector:
+    app: {{ .Chart.Name }}
+    name: {{ .Release.Name }}
+  type: {{ .Values.service.type }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port | default 5432 }}
+      targetPort: 5432
+      {{- if eq .Values.service.type "NodePort" }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
+```
+
+Other available operators are `ne`, `lt`, `gt`, `and`, `or`, `not`
+
+To nest more than one condition example
+
+```
+{{- if and (not .Values.service.nodePort) (eq .Values.service.type "NodePort") }}
+nodePort: 30543
+{{- else if eq .Values.service.type "NodePort" }}
+nodePort: {{ .Values.service.nodePort }}
+{{- end }}
+```
+
+Lets leverage `range` flow control to add custom environment variables into database container.
+
+Edit `postgres-deployment.yaml` section `env`
+```
+{{- range $envName, $envValue := .Values.envVars }}
+- name: {{ $envName | upper }}
+  value: {{ $envValue | quote }}
+{{- end}}
+```
+
 
 `Values.yaml`
 
@@ -487,7 +512,7 @@ stringData:
 replicas: 1
 
 image:
-  repository: postgres
+  repository: postgres 
   tag: alpine
 
 #Persistent storage configuration
@@ -505,6 +530,12 @@ service:
 AdminAccess:
   user: admin
   password: admin-pass
+
+#Set custom env variables for database container
+envVars:
+  first: database
+  second: backend
+  third: frontend
 ```
 
 

@@ -34,6 +34,10 @@ spec:
             secretKeyRef:
               name: postgres-admin
               key: db.pass
+        {{- range $envName, $envValue := .Values.envVars }}
+        - name: {{ $envName | upper }}
+          value: {{ $envValue | quote }}
+        {{- end}}
         volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: {{ .Release.Name }}-data  
