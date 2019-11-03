@@ -1,5 +1,10 @@
 # Run simple python/react application in docker containers
 
+## Prerequisity
+
+* PostgreSQL database running in docker container from previous section `1_README_local.md`
+
+
 ## Steps-to-follow
 * Run ligtweight PostgreSQL database as docker container
 * Build backend docker image from Dockerfile
@@ -7,10 +12,6 @@
 * Build frontend docker image from Dockerfile
 * Run frontend microservice in docker container
 
-
-## Prerequisity
-
-* PostgreSQL database running in docker container from previous section `1_README_local.md`
 ## Build backend docker image from Dockerfile
 
 Switch to project dir
