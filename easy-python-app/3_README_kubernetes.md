@@ -3,15 +3,15 @@
 ## Prerequisities
 * Install Hypervisor (KVM, VirtualBox, etc.)
 https://minikube.sigs.k8s.io/docs/reference/drivers/
+* Install Minikube
 
 ## Steps-to-follow
-* Install minikube
 * Deploy PostgreSQL database into minikube using kubernetes yaml objects
 * Build and Deploy backend microservice into minikube using kubernetes yaml objects 
 * Build and Deploy frontend microservice into minikube using kubernetes yaml objects 
 * Deploy Nginx-controller into minikube to leverage ingress objects
 
-## Install minikube
+## Install minikube (Linux)
 Switch to `root`
 
 ### 1. Download `kubectl`
@@ -76,8 +76,6 @@ export DOCKER_CERT_PATH="/home/jvojtek/.minikube/certs"
 # Run this command to configure your shell:
 # eval $(minikube docker-env)
 ```
-Run `eval $(minikube docker-env)` and add this command into your `bash_profile`
-
 
 ## Deploy Postgres Database into minikube
 
@@ -118,7 +116,7 @@ Run `eval $(minikube docker-env)` and add this command into your `bash_profile`
 ```
 Deploy PostgreSQL database into minikube using prepared kubernetes yaml objects
 ```
-kubectl apply -f open-alt2019/easy-python-app/database/k8s-objects/*
+kubectl apply -f open-alt2019/easy-python-app/database/k8s-objects/
 ```
 Connect to deployed PostgreSQL instance and create database and user for our application
 
@@ -137,7 +135,7 @@ cat /etc/hosts
 ```
 Test connection to PostgreSQL
 ```
-$ telnet 192.168.39.93 30543
+$ telnet minikube 30543
 Trying 192.168.39.93...
 Connected to 192.168.39.93.
 Escape character is '^]'.
@@ -197,15 +195,15 @@ cd open-alt2019/easy-python-app/backend/
 ```
 Build backend docker image from Dockerfile
 ```
-docker build -t backend-microservice:0.0.1 .
+sudo docker build -t backend-microservice:0.0.1 .
 ```
 Check newly build backend microservice docker image
 ```
-docker images
+sudo docker images
 ```
 Deploy backend microservice into minikube using prepared kubernetes yaml objects
 ```
-kubectl apply -f <LOCAL_PATH>/open-alt209/easy-python-app/backend/k8s-objects/*
+kubectl apply -f k8s-objects/
 ```
 Verify backend microservice is running properly 
 ```
@@ -251,13 +249,17 @@ Update get requests in `App.js` file in `frontend/src/` dir to reflect `backend-
 
 Build backend docker image from Dockerfile
 ```
-docker build -t frontend-microservice:0.0.1 .
+sudo docker build -t frontend-microservice:0.0.1 .
 ```
 Check newly build backend microservice docker image
 ```
-docker images
+sudo docker images
 ```
 Deploy frontend microservice into minikube using prepared kubernetes yaml objects
 ```
-kubectl apply -f open-alt2019/easy-python-app/frontend/k8s-objects/*
+kubectl apply -f k8s-objects/
 ````
+Verify in browser
+```
+minikube:30800
+```

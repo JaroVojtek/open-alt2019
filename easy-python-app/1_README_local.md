@@ -128,3 +128,8 @@ Build and start React Frontend microservice
 npm install
 npm start
 ```
+
+Verify in browser
+```
+localhost:3000
+```

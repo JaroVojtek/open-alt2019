@@ -80,3 +80,9 @@ Verify functionality of frontend microservice running in docker container
 sudo docker ps
 wget -O - http://localhost:5000/app
 ```
+
+
+Verify in browser
+```
+localhost:5000
+```
