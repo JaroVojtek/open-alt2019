@@ -84,5 +84,5 @@ wget -O - http://localhost:5000/app
 
 Verify in browser
 ```
-localhost:5000
+localhost:5000/app/
 ```

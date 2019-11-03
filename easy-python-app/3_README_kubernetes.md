@@ -9,7 +9,6 @@ https://minikube.sigs.k8s.io/docs/reference/drivers/
 * Deploy PostgreSQL database into minikube using kubernetes yaml objects
 * Build and Deploy backend microservice into minikube using kubernetes yaml objects 
 * Build and Deploy frontend microservice into minikube using kubernetes yaml objects 
-* Deploy Nginx-controller into minikube to leverage ingress objects
 
 ## Install minikube (Linux)
 Switch to `root`
@@ -31,7 +30,7 @@ Test to ensure the version you installed is up-to-date:
 kubectl version
 ```
 
-### 3.Install minikube
+### 3. Install minikube
 ```
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
   && chmod +x minikube
@@ -195,11 +194,11 @@ cd open-alt2019/easy-python-app/backend/
 ```
 Build backend docker image from Dockerfile
 ```
-sudo docker build -t backend-microservice:0.0.1 .
+docker build -t backend-microservice:0.0.1 .
 ```
 Check newly build backend microservice docker image
 ```
-sudo docker images
+docker images
 ```
 Deploy backend microservice into minikube using prepared kubernetes yaml objects
 ```
@@ -249,11 +248,11 @@ Update get requests in `App.js` file in `frontend/src/` dir to reflect `backend-
 
 Build backend docker image from Dockerfile
 ```
-sudo docker build -t frontend-microservice:0.0.1 .
+docker build -t frontend-microservice:0.0.1 .
 ```
 Check newly build backend microservice docker image
 ```
-sudo docker images
+docker images
 ```
 Deploy frontend microservice into minikube using prepared kubernetes yaml objects
 ```
