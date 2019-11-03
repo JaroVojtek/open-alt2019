@@ -11,20 +11,19 @@
 # Run simple python/react application locally
 
 Prerequisities:
-* `psql` client    
-* `nqm`
+* `docker`
+* `psql` client   
+* `npm` 
+* `Python 3`
+* `git`
 
 ## Steps-to-follow
-* Install Docker (Needed for PostgreSQL)
 * Run ligtweight PostgreSQL database as docker container
-* Install python 3
 * Run backend microservice locally
-* Install npm
 * Run frontend microservice locally 
 
-## Docker installation
+## Prerequisity installation : Docker
 
-Install Docker on Linux system
 ```
 curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
@@ -37,6 +36,8 @@ sudo systemctl status docker
 ```
 
 ## Run PostgreSQL 
+
+* Prerequisity:  `docker, psql`
 
 ```
 sudo docker run --net=host --rm \
@@ -72,7 +73,7 @@ psql --host=localhost --port=5432 -U micro -d microservice
 
 ## Run Backend microservice
 
-Install Python 3
+* Prerequisity:  `Python 3, git`
 
 Clone workshop repository
 ```
@@ -81,7 +82,7 @@ git clone https://github.com/JaroVojtek/open-alt2019.git
 
 Switch to project dir
 ```
-cd open-alt2019/easy-python-app/backend/
+cd open-alt209/easy-python-app/backend/
 ```
 Export environmental var
 ```
@@ -111,20 +112,14 @@ Start Flask
 export FLASK_APP=app
 flask run --host=0.0.0.0 --port=8000
 ```
-Verify in browser
-```
-localhost:8000/api/isalive
-```
 
 ## Run Frontend microservice
 
-Open new terminal
-
-Install npm
+* Prerequisity: `npm`
 
 Switch to project dir
 ```
-cd open-alt2019/easy-python-app/frontend/
+cd <LOCAL_PATH>/open-alt209/easy-python-app/frontend/
 ```
 Update get requests in `App.js` file in `frontend/src/` dir to make raquests to backend running on localhost:8000
 
@@ -133,12 +128,3 @@ Build and start React Frontend microservice
 npm install
 npm start
 ```
-Verify in browser
-```
-localhost:3000
-```
-
-... continue to `2_README_docker.md`
-
-
-
